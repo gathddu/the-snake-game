@@ -6,11 +6,11 @@ import os
 from config import GRID_WIDTH, GRID_HEIGHT, SNAKE_COLOR, FOOD_COLORS, BACKGROUND_COLOR, DELAY
 from utils import read_high_score, save_high_score
 
-# Function to start the game
+#starting the game
 def start_game():
     global play_again_button, quit_button
 
-    frame.pack_forget()  # Hide the frame with buttons
+    frame.pack_forget() #hiding buttons
     if play_again_button:
         play_again_button.destroy()
         quit_button.destroy()
@@ -18,11 +18,11 @@ def start_game():
     wn.bgcolor(BACKGROUND_COLOR)
     start_snake_game(DELAY)
 
-# Function to quit the game
+#quit forever
 def quit_game():
     turtle.bye()
 
-# Function to create game over elements
+#game over elements
 def create_game_over_elements(score, high_score):
     game_over_text = turtle.Turtle()
     game_over_text.speed(0)
@@ -44,7 +44,7 @@ def create_game_over_elements(score, high_score):
         game_over_text.write(line, align="center", font=("Courier", 18, "bold"))
     return game_over_text
 
-# Function to start the snake game
+#starting the snake_game
 def start_snake_game(delay):
     global score, high_score, segments, head, food, scoreBoard, game_over_elements, play_again_button, quit_button
 
@@ -52,32 +52,32 @@ def start_snake_game(delay):
     high_score = read_high_score()
     segments = []
 
-    # Creating window settings height and width
+    #height and width
     wn.title("SNAKE GAME")
     wn.bgcolor(BACKGROUND_COLOR)
     wn.setup(width=GRID_WIDTH, height=GRID_HEIGHT)
     wn.tracer(0)
 
-    # Game border
+    #boder
     create_game_border()
 
-    # Snake head
+    #head
     head = create_snake_head()
 
-    # Food
-    food = create_food()  # Initial creation of the food
-    food = generate_food(food)  # Generate a new position for the food
+    #food
+    food = create_food() 
+    food = generate_food(food)
 
 
-    # Score
+    #score
     scoreBoard = create_scoreboard(high_score)
 
-    # Key directions
+    #direction
     bind_key_directions(head)
 
     segments = []
 
-    # Main game
+    #main game
     game_over_elements = []
     running = True
     while running:
@@ -87,12 +87,12 @@ def start_snake_game(delay):
             running = False
             continue
 
-        # Collecting food
+        #collecting food
         if head.distance(food) < 20:
             score += 10
             if score > high_score:
                 high_score = score
-                save_high_score(high_score)  # Save the new high score
+                save_high_score(high_score)
             update_score(scoreBoard, score, high_score)
             food = generate_food(food)
             add_snake_segment(segments, head)
@@ -198,20 +198,20 @@ def update_score(scoreBoard, score, high_score):
 
 def create_food():
     food = turtle.Turtle()
-    food_color = random.choice(FOOD_COLORS)  # Picks a random color from the list
+    food_color = random.choice(FOOD_COLORS)
     food.speed(0)
-    food.shape('circle')  # Set the shape to always be a circle
-    food.color(food_color)  # Applies the selected color to the food
+    food.shape('circle') 
+    food.color(food_color) 
     food.penup()
-    food.goto(20, 20)  # Initial position
+    food.goto(20, 20) 
     return food
 
 def generate_food(food):
-    x_cord = random.randint(-14, 14) * 20  # Aligns the x-coordinate with the snake's grid
-    y_cord = random.randint(-11, 11) * 20  # Aligns the y-coordinate with the snake's grid
-    food_color = random.choice(FOOD_COLORS)  # Picks a random color from the list
-    food.shape('circle')  # Set the shape to always be a circle
-    food.color(food_color)  # Applies the selected color to the food
+    x_cord = random.randint(-14, 14) * 20 
+    y_cord = random.randint(-11, 11) * 20 
+    food_color = random.choice(FOOD_COLORS) 
+    food.shape('circle')
+    food.color(food_color) 
     food.goto(x_cord, y_cord)
     return food
 
@@ -250,31 +250,31 @@ def move(head):
         x = head.xcor()
         head.setx(x + 20)
 
-# Create the screen
+#screen
 wn = turtle.Screen()
 wn.title("Snake Game Menu")
 wn.bgcolor(BACKGROUND_COLOR)
 wn.setup(width=GRID_WIDTH, height=GRID_HEIGHT)
 
-# Get the canvas from the turtle screen
+#canvas from turtle scren
 canvas = wn.getcanvas()
 
-# Create a frame to hold the buttons
+#frame for buttons
 frame = tk.Frame(canvas.master)
 frame.pack()
 
-# Create the start button
+#start button
 start_button = tk.Button(frame, text="Start Game", command=start_game)
 start_button.pack(side=tk.LEFT)
 
-# Create the quit button
+#quit button
 quit_button = tk.Button(frame, text="Quit Game", command=quit_game)
 quit_button.pack(side=tk.RIGHT)
 
-# Initialize button references
+#button references
 play_again_button = None
 quit_button = None
 
-# Main loop to keep the window open
+#main window loop
 wn.mainloop()
 
